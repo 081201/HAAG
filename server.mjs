@@ -26,7 +26,7 @@ app.use(expressSession({
 }));
 
 const PORT = 3000;
-const db = new Database("wadsongs.db");
+const db = new Database("ChefSecretRecipe.db");
 
 // Middleware to check if user is logged in
 const isAuthenticated = (req, res, next) => {
