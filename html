@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipe App</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script defer src="script.js"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Navigation Bar -->
+  <header class="bg-blue-600 text-white p-4">
+    <nav class="container mx-auto flex justify-between items-center">
+      <h1 class="text-xl font-bold">Recipe App</h1>
+      <div class="space-x-4">
+        <button onclick="showPage('home')" class="hover:underline">Home</button>
+        <button onclick="showPage('profile')" class="hover:underline">Profile</button>
+        <button onclick="showPage('create')" class="hover:underline">Create Recipe</button>
+        <button onclick="toggleTheme()" class="hover:underline">Toggle Theme</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Homepage -->
+  <section id="home" class="container mx-auto p-6 hidden">
+    <h2 class="text-2xl font-bold mb-4">Recipe List</h2>
+    <input type="text" placeholder="Search recipes..." class="border p-2 w-full mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <!-- Recipe Thumbnails -->
+      <div class="bg-white p-4 rounded shadow">
+        <img src="recipe-thumbnail.jpg" alt="Recipe" class="w-full h-32 object-cover rounded mb-2">
+        <h3 class="text-lg font-semibold">Recipe Name</h3>
+      </div>
+      <!-- Add more recipe cards here -->
+    </div>
+  </section>
+
+  <!-- Profile Page -->
+  <section id="profile" class="container mx-auto p-6 hidden">
+    <h2 class="text-2xl font-bold mb-4">User Profile</h2>
+    <div class="flex flex-col items-center">
+      <img id="profileImage" src="default-profile.jpg" alt="Profile" class="w-32 h-32 rounded-full mb-4">
+      <input type="file" onchange="previewImage(event)" class="mb-4">
+      <button class="bg-blue-600 text-white px-4 py-2 rounded">Save Profile</button>
+    </div>
+  </section>
+
+  <!-- Recipe Creation Form -->
+  <section id="create" class="container mx-auto p-6 hidden">
+    <h2 class="text-2xl font-bold mb-4">Create a New Recipe</h2>
+    <form class="space-y-4">
+      <div>
+        <label for="title" class="block">Recipe Title:</label>
+        <input type="text" id="title" class="border p-2 w-full">
+      </div>
+      <div>
+        <label for="ingredients" class="block">Ingredients:</label>
+        <textarea id="ingredients" class="border p-2 w-full" rows="4"></textarea>
+      </div>
+      <div>
+        <label for="steps" class="block">Steps:</label>
+        <textarea id="steps" class="border p-2 w-full" rows="6"></textarea>
+      </div>
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Create Recipe</button>
+    </form>
+  </section>
+
+</body>
+</html>
