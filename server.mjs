@@ -6,6 +6,8 @@ import ViteExpress from 'vite-express';
 import bcrypt from 'bcrypt';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import multer from 'multer';
+import fs from 'fs';
 
 const app = express();
 app.use(express.static('public'));
@@ -32,6 +34,25 @@ app.use(expressSession({
     }
 }));
 
+// Set up multer storage configuration
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const uploadDir = path.join(__dirname, 'public', 'uploads');
+        // Ensure the uploads directory exists
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
+        }
+        cb(null, uploadDir);  // Specify the directory to store uploaded files
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname));  // Generate a unique filename
+    }
+});
+
+// Initialize multer with the storage configuration
+const upload = multer({ storage: storage });
+
+
 const PORT = 3000;
 const db = new Database("ChefSecretRecipe.db");
 
@@ -50,6 +71,8 @@ const isAdmin = (req, res, next) => {
     }
     next();
 };
+app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
+
 
 // Endpoint to fetch homepage
 app.get('/', (req, res) => {
@@ -57,13 +80,17 @@ app.get('/', (req, res) => {
 });
 
 app.get('/signup', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'signup.html'));
+    res.sendFile(path.join(__dirname, 'public', 'signup.html'));
 });
 
 app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'Login.html'));
 });
 
+// Serve the profile settings page
+app.get('/profile-settings', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'profile-settings.html'));
+});
 
 // API to check user status
 app.get('/api/user-status', (req, res) => {
@@ -82,6 +109,48 @@ app.get('/api/user-status', (req, res) => {
     res.json({ loggedIn: false });
 });
 
+// Endpoint to update user profile information
+app.post('/api/update-profile', isAuthenticated, async (req, res) => {
+    const { newUsername, newProfilePicture } = req.body;
+
+    if (!newUsername) {
+        return res.status(400).json({ error: 'Username is required.' });
+    }
+
+    try {
+        const stmt = db.prepare('UPDATE ht_users SET username = ?, profile_picture = ? WHERE username = ?');
+        const result = stmt.run(newUsername, newProfilePicture || null, req.session.username);
+
+        if (result.changes > 0) {
+            req.session.username = newUsername;  
+            res.json({ success: true, newUsername, newProfilePicture });
+        } else {
+            res.status(400).json({ error: 'Failed to update profile.' });
+        }
+    } catch (error) {
+        console.error('Error updating profile:', error.message);
+        res.status(500).json({ error: 'An error occurred while updating your profile.' });
+    }
+});
+
+// Endpoint for uploading profile picture
+app.post('/api/upload-profile-picture', isAuthenticated, upload.single('profilePicture'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded.' });
+    }
+
+    const filePath = `/uploads/${req.file.filename}`;
+
+    // Optionally: Update the user's profile picture in the database
+    const stmt = db.prepare('UPDATE ht_users SET profile_picture = ? WHERE username = ?');
+    const result = stmt.run(filePath, req.session.username);
+
+    if (result.changes > 0) {
+        res.json({ success: true, profilePicture: filePath });
+    } else {
+        res.status(400).json({ error: 'Failed to update profile picture.' });
+    }
+});
 
 // User login endpoint
 app.post('/login', async (req, res) => {
@@ -106,7 +175,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
-//User signup 
+// User signup
 app.post('/signup', async (req, res) => {
     const { username, email, password } = req.body;
 
@@ -145,14 +214,13 @@ app.post('/signup', async (req, res) => {
 app.get('/categories', (req, res) => {
     try {
         const stmt = db.prepare("SELECT * FROM categories");
-        const categories = stmt.all(); // Fetch all categories
-        res.json(categories); // Respond with categories
+        const categories = stmt.all();
+        res.json(categories);
     } catch (error) {
         console.error('Error fetching categories:', error.message);
         res.status(500).json({ error: 'Failed to fetch categories' });
     }
 });
-
 
 // Endpoint to fetch recipes based on categories and ht_users
 app.get('/recipes', (req, res) => {
@@ -163,7 +231,7 @@ app.get('/recipes', (req, res) => {
             JOIN categories c ON r.category_id = c.id
             JOIN ht_users u ON r.user_id = u.id
         `);
-        const recipes = stmt.all(); 
+        const recipes = stmt.all();
         res.json(recipes);
     } catch (error) {
         console.error('Error fetching recipes:', error.message);
@@ -190,7 +258,6 @@ app.get('/api/recipes/:id', (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
-
 
 // Logout endpoint
 app.post('/logout', (req, res) => {
