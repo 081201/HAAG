@@ -129,8 +129,66 @@ function toggleProfileDropdown() {
 document.querySelector('.depth-7-frame-1').addEventListener('click', handleSignupAndExplore);
 
 
-// Check user status when page loads and update UI
 document.addEventListener('DOMContentLoaded', () => {
     fetchCategories();
     fetchUserStatus();
+});
+
+document.getElementById('search-input').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault(); 
+        searchRecipes(); 
+    } else {
+        searchRecipes(); 
+    }
+});
+
+function searchRecipes() {
+    const query = document.getElementById('search-input').value;
+    fetch(`/search?q=${encodeURIComponent(query)}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => displayResults(data))
+        .catch(error => console.error('Error:', error));
+}
+
+function displayResults(data) {
+    const dropdown = document.getElementById('search-dropdown');
+    dropdown.innerHTML = ''; 
+
+    if (data.length === 0) {
+        dropdown.style.display = 'none';
+        return;
+    }
+
+    data.forEach(recipe => {
+        const recipeElement = document.createElement('div');
+        recipeElement.textContent = `${recipe.title} - ${recipe.category_name}`;
+        recipeElement.onclick = () => selectRecipe(recipe); 
+        dropdown.appendChild(recipeElement);
+    });
+
+    dropdown.style.display = 'block'; 
+}
+
+function selectRecipe(recipe) {
+    console.log(`Selected recipe: ${recipe.title}`);
+    document.getElementById('search-input').value = recipe.title;
+    document.getElementById('search-dropdown').style.display = 'none';
+}
+
+document.addEventListener('click', function(event) {
+    const searchInput = document.getElementById('search-input');
+    const dropdown = document.getElementById('search-dropdown');
+    if (!searchInput.contains(event.target) && !dropdown.contains(event.target)) {
+        dropdown.style.display = 'none';
+    }
+});
+
+document.getElementById('search-dropdown').addEventListener('click', function(event) {
+    event.stopPropagation();
 });

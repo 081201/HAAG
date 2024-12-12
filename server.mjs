@@ -259,6 +259,31 @@ app.get('/api/recipes/:id', (req, res) => {
     }
 });
 
+// Add the search endpoint with detailed error logging
+app.get('/search', (req, res) => {
+    try {
+        const query = req.query.q;
+        if (!query) {
+            console.warn('Search query parameter is missing');
+            return res.status(400).json({ error: 'Query parameter is missing' });
+        }
+        const stmt = db.prepare(`
+            SELECT recipes.*, categories.name AS category_name
+            FROM recipes
+            JOIN categories ON recipes.category_id = categories.id
+            WHERE recipes.title LIKE ? OR categories.name LIKE ?
+        `);
+        const recipes = stmt.all(`%${query}%`, `%${query}%`);
+        console.log('Search results:', recipes);  // Log the search results
+        res.json(recipes);
+    } catch (error) {
+        console.error('Error executing search:', error); // Log the complete error object
+        res.status(500).json({ error: 'Failed to execute search' });
+    }
+});
+
+
+
 // Logout endpoint
 app.post('/logout', (req, res) => {
     req.session.username = null;
