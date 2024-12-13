@@ -1,0 +1,787 @@
+.your-recipes {
+  margin: 0;
+  align-self: stretch;
+  position: relative;
+  font-size: inherit;
+  line-height: 40px;
+  font-weight: 700;
+  font-family: inherit;
+}
+.depth-5-frame-0 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-width: 288px;
+}
+.add-recipe {
+  align-self: stretch;
+  position: relative;
+  line-height: 21px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.depth-8-frame-1,
+.depth-9-frame-0 {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.depth-9-frame-0 {
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.depth-8-frame-1 {
+  width: 200px;
+  margin: 0 !important;
+  position: absolute;
+  top: 4px;
+  left: 760px;
+  border-radius: var(--br-xs);
+  background-color: #dbd2cb;
+  flex-direction: row;
+  justify-content: center;
+  padding: var(--padding-xs) 22px;
+  box-sizing: border-box;
+  min-width: 84px;
+  max-width: 480px;
+  text-align: center;
+  font-size: 20px;
+}
+.depth-4-frame-0 {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0 0 var(--padding-xs);
+  position: relative;
+  font-size: var(--font-size-13xl);
+}
+.depth-6-frame-0 {
+  height: 242px;
+  flex: 1;
+  position: relative;
+  border-radius: var(--br-xs);
+  max-width: 100%;
+  overflow: hidden;
+  object-fit: cover;
+  min-width: 302px;
+}
+.best-ever-chocolate-cake {
+  align-self: stretch;
+  position: relative;
+  line-height: 23px;
+}
+.depth-7-frame-0 {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.chocolate-cake-a {
+  position: relative;
+  line-height: 24px;
+}
+.depth-8-frame-0 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.edit-recipe {
+  position: relative;
+  line-height: 21px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.depth-8-frame-11,
+.depth-9-frame-01 {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.depth-8-frame-11 {
+  border-radius: var(--br-xs);
+  background-color: var(--color-chocolate);
+  flex-direction: row;
+  justify-content: center;
+  padding: var(--padding-7xs-5) var(--padding-base);
+  box-sizing: border-box;
+  min-width: 84px;
+  max-width: 480px;
+  flex-shrink: 0;
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-200);
+}
+.depth-7-frame-1 {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--gap-9xs);
+  font-size: var(--font-size-base);
+  color: var(--color-gray-100);
+}
+.depth-6-frame-1 {
+  width: 464px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--padding-base);
+  box-sizing: border-box;
+  gap: var(--gap-9xs);
+  min-width: 288px;
+  max-width: 100%;
+}
+.depth-4-frame-2,
+.depth-5-frame-01 {
+  align-self: stretch;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  max-width: 100%;
+}
+.depth-5-frame-01 {
+  border-radius: var(--br-xs);
+  flex-direction: row;
+  row-gap: 20px;
+}
+.depth-4-frame-2 {
+  flex-direction: column;
+  padding: var(--padding-base);
+  box-sizing: border-box;
+}
+.depth-6-frame-01 {
+  height: 242px;
+  flex: 1;
+  position: relative;
+  border-radius: var(--br-xs);
+  max-width: 100%;
+  overflow: hidden;
+  object-fit: cover;
+  min-width: 302px;
+}
+.fluffy-pancakes {
+  align-self: stretch;
+  position: relative;
+  line-height: 23px;
+}
+.depth-7-frame-01 {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.a-delicious-and {
+  position: relative;
+  line-height: 24px;
+}
+.depth-8-frame-01 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.edit-recipe1 {
+  position: relative;
+  line-height: 21px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.depth-8-frame-12,
+.depth-9-frame-02 {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.depth-8-frame-12 {
+  border-radius: var(--br-xs);
+  background-color: var(--color-chocolate);
+  flex-direction: row;
+  justify-content: center;
+  padding: var(--padding-7xs-5) var(--padding-base);
+  box-sizing: border-box;
+  min-width: 84px;
+  max-width: 480px;
+  flex-shrink: 0;
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-200);
+}
+.depth-7-frame-11 {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--gap-9xs);
+  font-size: var(--font-size-base);
+  color: var(--color-gray-100);
+}
+.depth-6-frame-11 {
+  width: 464px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--padding-base);
+  box-sizing: border-box;
+  gap: var(--gap-9xs);
+  min-width: 288px;
+  max-width: 100%;
+}
+.depth-4-frame-3,
+.depth-5-frame-02 {
+  align-self: stretch;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  max-width: 100%;
+}
+.depth-5-frame-02 {
+  border-radius: var(--br-xs);
+  flex-direction: row;
+  row-gap: 20px;
+}
+.depth-4-frame-3 {
+  flex-direction: column;
+  padding: var(--padding-base);
+  box-sizing: border-box;
+}
+.depth-6-frame-02 {
+  height: 242px;
+  flex: 1;
+  position: relative;
+  border-radius: var(--br-xs);
+  max-width: 100%;
+  overflow: hidden;
+  object-fit: cover;
+  min-width: 302px;
+}
+.homemade-pizza-dough {
+  align-self: stretch;
+  position: relative;
+  line-height: 23px;
+}
+.depth-7-frame-02 {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.make-your-own {
+  position: relative;
+  line-height: 24px;
+}
+.depth-8-frame-02 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.edit-recipe2 {
+  position: relative;
+  line-height: 21px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.depth-8-frame-13,
+.depth-9-frame-03 {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.depth-8-frame-13 {
+  border-radius: var(--br-xs);
+  background-color: var(--color-chocolate);
+  flex-direction: row;
+  justify-content: center;
+  padding: var(--padding-7xs-5) var(--padding-base);
+  box-sizing: border-box;
+  min-width: 84px;
+  max-width: 480px;
+  flex-shrink: 0;
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-200);
+}
+.depth-7-frame-12 {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--gap-9xs);
+  font-size: var(--font-size-base);
+  color: var(--color-gray-100);
+}
+.depth-6-frame-12 {
+  width: 464px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--padding-base);
+  box-sizing: border-box;
+  gap: var(--gap-9xs);
+  min-width: 288px;
+  max-width: 100%;
+}
+.depth-4-frame-4,
+.depth-5-frame-03 {
+  align-self: stretch;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  max-width: 100%;
+}
+.depth-5-frame-03 {
+  border-radius: var(--br-xs);
+  flex-direction: row;
+  row-gap: 20px;
+}
+.depth-4-frame-4 {
+  flex-direction: column;
+  padding: var(--padding-base);
+  box-sizing: border-box;
+}
+.depth-6-frame-03 {
+  height: 242px;
+  flex: 1;
+  position: relative;
+  border-radius: var(--br-xs);
+  max-width: 100%;
+  overflow: hidden;
+  object-fit: cover;
+  min-width: 302px;
+}
+.classic-chocolate-chip {
+  align-self: stretch;
+  position: relative;
+  line-height: 23px;
+}
+.depth-7-frame-03 {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.bake-a-batch {
+  position: relative;
+  line-height: 24px;
+}
+.depth-8-frame-03 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.edit-recipe3 {
+  position: relative;
+  line-height: 21px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.depth-8-frame-14,
+.depth-9-frame-04 {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.depth-8-frame-14 {
+  border-radius: var(--br-xs);
+  background-color: var(--color-chocolate);
+  flex-direction: row;
+  justify-content: center;
+  padding: var(--padding-7xs-5) var(--padding-base);
+  box-sizing: border-box;
+  min-width: 84px;
+  max-width: 480px;
+  flex-shrink: 0;
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-200);
+}
+.depth-7-frame-13 {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--gap-9xs);
+  font-size: var(--font-size-base);
+  color: var(--color-gray-100);
+}
+.depth-6-frame-13 {
+  width: 464px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--padding-base);
+  box-sizing: border-box;
+  gap: var(--gap-9xs);
+  min-width: 288px;
+  max-width: 100%;
+}
+.depth-3-frame-1,
+.depth-4-frame-5,
+.depth-5-frame-04 {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.depth-5-frame-04 {
+  align-self: stretch;
+  border-radius: var(--br-xs);
+  flex-direction: row;
+  max-width: 100%;
+  row-gap: 20px;
+}
+.depth-3-frame-1,
+.depth-4-frame-5 {
+  flex-direction: column;
+}
+.depth-4-frame-5 {
+  align-self: stretch;
+  padding: var(--padding-base);
+  box-sizing: border-box;
+  max-width: 100%;
+}
+.depth-3-frame-1 {
+  width: 960px;
+  margin: 0 !important;
+  position: absolute;
+  top: 137px;
+  left: 160px;
+  overflow: hidden;
+  flex-shrink: 0;
+  max-width: 960px;
+}
+.depth-2-frame-0-child,
+.depth-4-frame-21 {
+  height: 65px;
+  width: 88px;
+  position: relative;
+  object-fit: cover;
+}
+.depth-4-frame-21 {
+  height: 79px;
+  width: 84px;
+  border-radius: 50px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.depth-8-frame-04,
+.vector-0 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.depth-8-frame-04 {
+  width: 20px;
+  height: 20px;
+}
+.depth-7-frame-04 {
+  height: 24px;
+  width: 24px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.depth-6-frame-04 {
+  border-radius: var(--br-xs) 0 0 var(--br-xs);
+  background-color: var(--color-linen);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-lgi) 0 var(--padding-lgi) var(--padding-base);
+}
+.search {
+  position: relative;
+  line-height: 24px;
+  display: inline-block;
+  min-width: 64.7px;
+}
+.depth-6-frame-14 {
+  flex: 1;
+  border-radius: 0 var(--br-xs) var(--br-xs) 0;
+  background-color: var(--color-linen);
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: var(--padding-lgi) 8px;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+.depth-4-frame-1,
+.depth-5-frame-05 {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.depth-5-frame-05 {
+  width: 500px;
+  border-radius: var(--br-xs);
+  flex-direction: row;
+  max-width: 196%;
+}
+.depth-4-frame-1 {
+  width: 256px;
+  margin: 0 !important;
+  position: absolute;
+  top: 10.5px;
+  left: 329px;
+  flex-direction: column;
+  padding: 0;
+  box-sizing: border-box;
+  min-width: 160px;
+  max-width: 256px;
+}
+.chefs,
+.secret {
+  margin: 0;
+}
+.secret {
+  white-space: pre-wrap;
+}
+.chefs-secret {
+  margin: 0;
+  width: 179px;
+  height: 62px;
+  position: relative;
+  font-size: inherit;
+  line-height: 23px;
+  font-weight: 700;
+  font-family: inherit;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.depth-3-frame-0,
+.depth-4-frame-01,
+.depth-5-frame-1 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.depth-3-frame-0,
+.depth-4-frame-01 {
+  margin: 0 !important;
+  position: absolute;
+  flex-direction: row;
+  align-items: center;
+}
+.depth-4-frame-01 {
+  width: 142px;
+  top: 26.5px;
+  left: 146px;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: var(--font-size-13xl);
+  color: #1c120d;
+}
+.depth-3-frame-0 {
+  height: 62px;
+  width: 486px;
+  top: -11.5px;
+  left: -133px;
+  gap: 75px;
+}
+.depth-3-frame-11 {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-end;
+  position: relative;
+  gap: 32px;
+  max-width: 100%;
+}
+.depth-2-frame-02 {
+  width: 100%;
+  margin: 0 !important;
+  position: absolute;
+  top: 12px;
+  left: 0;
+  border-bottom: 1px solid var(--color-gainsboro);
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--padding-21xl);
+}
+.depth-2-frame-0,
+.depth-2-frame-01,
+.depth-2-frame-02 {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+.depth-2-frame-01 {
+  height: 105px;
+  width: 100%;
+  margin: 0 !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-bottom: 1px solid var(--color-gainsboro);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--padding-xs) var(--padding-21xl);
+  text-align: left;
+  font-size: var(--font-size-base);
+  color: #9c694a;
+  font-family: var(--font-epilogue);
+}
+.depth-2-frame-0 {
+  align-self: stretch;
+  height: 1307px;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 20px 24px;
+  position: relative;
+  gap: var(--gap-9xs);
+}
+.depth-0-frame-0,
+.depth-1-frame-0,
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.depth-1-frame-0 {
+  align-self: stretch;
+  max-width: 100%;
+  text-align: left;
+  font-size: var(--font-size-lg);
+  color: var(--color-gray-200);
+  font-family: var(--font-epilogue);
+}
+.depth-0-frame-0,
+.profile-page {
+  background-color: var(--color-white);
+}
+.depth-0-frame-0 {
+  align-self: stretch;
+  overflow: hidden;
+  min-height: 800px;
+  max-width: 100%;
+}
+.profile-page {
+  width: 100%;
+  position: relative;
+  line-height: normal;
+  letter-spacing: normal;
+}
+@media screen and (max-width: 975px) {
+  .depth-3-frame-1 {
+    max-width: 100%;
+  }
+}
+@media screen and (max-width: 950px) {
+  .your-recipes {
+    font-size: 26px;
+    line-height: 32px;
+  }
+  .depth-6-frame-0,
+  .depth-6-frame-1 {
+    flex: 1;
+  }
+  .depth-5-frame-01 {
+    flex-wrap: wrap;
+  }
+  .depth-6-frame-01,
+  .depth-6-frame-11 {
+    flex: 1;
+  }
+  .depth-5-frame-02 {
+    flex-wrap: wrap;
+  }
+  .depth-6-frame-02,
+  .depth-6-frame-12 {
+    flex: 1;
+  }
+  .depth-5-frame-03 {
+    flex-wrap: wrap;
+  }
+  .depth-6-frame-03,
+  .depth-6-frame-13 {
+    flex: 1;
+  }
+  .depth-5-frame-04 {
+    flex-wrap: wrap;
+  }
+  .depth-2-frame-0 {
+    height: auto;
+    min-height: 1307;
+  }
+}
+@media screen and (max-width: 700px) {
+  .depth-8-frame-1,
+  .depth-8-frame-11 {
+    max-width: 100%;
+  }
+  .depth-7-frame-1 {
+    flex-wrap: wrap;
+  }
+  .depth-8-frame-12 {
+    max-width: 100%;
+  }
+  .depth-7-frame-11 {
+    flex-wrap: wrap;
+  }
+  .depth-8-frame-13 {
+    max-width: 100%;
+  }
+  .depth-7-frame-12 {
+    flex-wrap: wrap;
+  }
+  .depth-8-frame-14 {
+    max-width: 100%;
+  }
+  .depth-7-frame-13 {
+    flex-wrap: wrap;
+  }
+}
+@media screen and (max-width: 450px) {
+  .your-recipes {
+    font-size: 19px;
+    line-height: 24px;
+  }
+  .add-recipe {
+    font-size: var(--font-size-base);
+    line-height: 17px;
+  }
+}

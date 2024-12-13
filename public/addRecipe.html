@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1, width=device-width" />
+  <link rel="stylesheet" href="../Addrecipeglobal.css" />
+  <link rel="stylesheet" href="../Addrecipe.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700&display=swap" />
+  <style>
+    .hidden {
+      max-height: 0;
+      overflow: hidden;
+      visibility: hidden;
+      transition: max-height 0.3s ease, visibility 0.3s ease;
+    }
+
+    .visible {
+      max-height: 1000px;
+      /* A large enough value to accommodate the content */
+      visibility: visible;
+    }
+  </style>
+  <title>Add Recipe</title>
+</head>
+
+<body>
+  <div class="add-recipe">
+    <main class="depth-0-frame-0">
+      <section class="depth-1-frame-0">
+        <div class="depth-2-frame-1">
+          <header class="depth-2-frame-0">
+            <img class="depth-2-frame-0-child" loading="lazy" alt="" src="../images/rectangle-1@2x.png" />
+            <div class="depth-3-frame-1">
+              <img class="depth-4-frame-21" loading="lazy" alt="" src="../images/depth-4-frame-2@2x.png" />
+              <div class="depth-3-frame-01">
+                <div class="depth-4-frame-13">
+                  <div class="depth-5-frame-011">
+                    <div class="depth-6-frame-010">
+                      <div class="depth-7-frame-02">
+                        <img class="vector-0" alt="" src="../images/vector--0.svg" />
+                        <div class="depth-8-frame-0"></div>
+                      </div>
+                    </div>
+                    <input class="depth-6-frame-18" placeholder="Search" type="text" />
+                  </div>
+                </div>
+                <div class="depth-4-frame-01">
+                  <div class="depth-5-frame-11">
+                    <a class="chefs-secret">
+                      <p class="chefs">Chef's</p>
+                      <p class="secret">Secret</p>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </header>
+          <form action="/recipe/add" method="POST" enctype="multipart/form-data">
+            <div class="depth-3-frame-0">
+              <div class="depth-4-frame-0">
+                <div class="depth-5-frame-04">
+                  <div class="depth-6-frame-03">
+                    <h1 class="add-a-new">Add a new recipe</h1>
+                  </div>
+                  <div class="depth-6-frame-11">
+                    <div class="write-your-recipe">
+                      Write your recipe in plain text or use markdown for
+                      formatting
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="depth-4-frame-1">
+                <div class="depth-5-frame-05">
+                  <div class="depth-6-frame-04">
+                    <div class="title">Title</div>
+                  </div>
+                  <input type="text" name="title" class="depth-6-frame-12" required />
+                </div>
+              </div>
+              <div class="depth-4-frame-2">
+                <div class="depth-5-frame-06">
+                  <div class="depth-6-frame-05">
+                    <div class="description">Description</div>
+                  </div>
+                  <textarea name="description" class="depth-6-frame-13" rows="7" cols="22"
+                    name="description"></textarea>
+                </div>
+              </div>
+              <div class="depth-4-frame-3">
+                <b class="list-of-ingredients">List of ingredients</b>
+              </div>
+              <div class="depth-4-frame-4">
+                <div class="depth-5-frame-07">
+                  <input id="ingredient-checkbox" class="depth-6-frame-06" type="checkbox"
+                    onchange="toggleVisibility('ingredients-section', this.checked)" />
+                  <div class="depth-6-frame-14">
+                    <div class="add-an-ingredient">Add an ingredient</div>
+                  </div>
+                </div>
+              </div>
+              <div id="ingredients-section" class="hidden depth-4-frame-5">
+                <div class="depth-5-frame-08">
+                  <div class="depth-6-frame-07">
+                    <div class="ingredients">Ingredients</div>
+                  </div>
+                  <textarea name="ingredients" class="depth-6-frame-15" rows="7" cols="22" required></textarea>
+                </div>
+              </div>
+              <div class="depth-4-frame-6">
+                <b class="list-of-steps">List of steps</b>
+              </div>
+              <div class="depth-4-frame-71">
+                <div class="depth-5-frame-09">
+                  <input id="step-checkbox" class="depth-6-frame-08" type="checkbox"
+                    onchange="toggleVisibility('steps-section', this.checked)" />
+                  <div class="depth-6-frame-16">
+                    <div class="add-a-step">Add a step</div>
+                  </div>
+                </div>
+              </div>
+              <div id="steps-section" class="hidden depth-4-frame-81">
+                <div class="depth-5-frame-010">
+                  <div class="depth-6-frame-09">
+                    <div class="steps">Steps</div>
+                  </div>
+                  <textarea name="steps" class="depth-6-frame-17" rows="7" cols="22" required></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="depth-4-frame-7-parent">
+              <div class="depth-4-frame-7">
+                <b class="cover-image">Cover image</b>
+              </div>
+              <div class="depth-5-frame-0" style="
+                    padding: 0;
+                  ">
+                <input type="file" name="image" id="image" accept="image/*" hidden required />
+                <div class="depth-7-frame-0">
+                  <label for="image"><b class="upload">Upload</b></label>
+                </div>
+              </div>
+              <div class="depth-5-frame-12">
+                <button type="submit" class="depth-5-frame-03">
+                  <div class="depth-6-frame-02">
+                    <b class="publish">Publish</b>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    function toggleVisibility(sectionId, isVisible) {
+      const section = document.getElementById(sectionId);
+      section.classList.toggle("hidden", !isVisible);
+      section.classList.toggle("visible", isVisible);
+    }
+  </script>
+</body>
+
+</html>

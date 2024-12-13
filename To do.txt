@@ -1,0 +1,22 @@
+guest user ( not able to access the functionaity)
+Registered user 
+Admin User (Access to amend changes)
+OAuth Authentication (OAuth|NextAuth.js)
+Cloudinary( Image processing)
+workflow
+GitHub actions
+
+
+library(convert markdown to html)
+mark
+sanitizeHtml
+Ansible
+DevsecOpos(security Angle)
+Jenkins(Continuous integration tool)
+Wordpress
+Domain
+
+
+
+cloud-native architecture deployment
+jobs.ac.uk

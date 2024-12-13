@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+
+    <link rel="stylesheet" href="./Signupglobal.css" />
+    <link rel="stylesheet" href="./Signup.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Epilogue:wght@700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+    />
+  </head>
+  <body>
+    <div class="sign-up">
+      <section class="signup-form">
+        <img
+          class="signup-form-image"
+          alt=""
+          src="./public/images/signup-form-image@2x.png"
+        />
+
+        <a class="chefs-secret">
+          <p class="chefs">Chef’s</p>
+          <p class="secret">Secret</p>
+        </a>
+        <img class="fichier-14-1" alt="" src="./public/images/fichier-14-1@2x.png" />
+
+        <img class="vector-icon" alt="" src="./public/images/vector.svg" />
+
+        <img
+          class="vector-icon1"
+          loading="lazy"
+          alt=""
+          src="./public/images/vector-1.svg"
+        />
+
+        <div class="signup-form-description">
+          <div class="signup-form-cravings">
+            <h1 class="start-turning-your-container">
+              <p class="start-turning-your">Start turning your</p>
+              <p class="cravings-into-reality">cravings into reality.</p>
+            </h1>
+            <div class="create-a-free-container">
+              <p class="create-a-free">
+                Create a free account and get full access to all features for 30
+                days.
+              </p>
+              <p class="no-credit-card">
+                No credit card needed. Trusted by over 4,000 professionals.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div class="signup-form-fields">
+        <div class="signup-form-name-email">
+          <div class="signup-form-name">
+            <div class="signup-form-name-field">
+              <img
+                class="signup-form-name-input-border"
+                loading="lazy"
+                alt=""
+                src="./public/images/rectangle-2@2x.png"
+              />
+
+              <h1 class="sign-up1">Sign up</h1>
+            </div>
+          </div>
+          <form class="signup-form-name-email-inputs-parent">
+            <div class="signup-form-name-email-inputs">
+              <div class="signup-form-name-email-placeho">
+                <b class="name">Name*</b>
+                <div class="signup-form-name-email-input-f">
+                  <div class="signup-form-name-email-input-f-child"></div>
+                  <input
+                    class="enter-your-name"
+                    placeholder="Enter your name"
+                    type="text"
+					name="name"
+					required
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="signup-form-name-email-inputs1">
+              <div class="email-parent">
+                <b class="email">Email*</b>
+                <div class="rectangle-parent">
+                  <div class="frame-child"></div>
+                  <input
+                    class="enter-your-email"
+                    placeholder="Enter your email"
+                    type="text"
+					name="email"
+					required
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="signup-form-password-field">
+              <div class="signup-form-password-input">
+                <b class="password">Password*</b>
+                <div class="signup-form-password-strength">
+                  <div class="rectangle-group">
+                    <div class="frame-item"></div>
+                    <input
+                      class="create-a-password"
+                      placeholder="Create a password"
+                      type="password"
+					  name="password"
+					  minlength="8"
+					  required
+                    />
+                  </div>
+                  <div class="must-be-at">Must be at least 8 characters.</div>
+                </div>
+              </div>
+            </div>
+            <button class="login-button">
+              <div class="button">
+                <div class="button1">Sign up</div>
+              </div>
+            </button>
+            <div class="signup-google">
+              <button class="signup-google-button">
+                <div class="signup-google-button-child"></div>
+                <img
+                  class="search-1-icon"
+                  alt=""
+                  src="./public/images/search-1@2x.png"
+                />
+
+                <div class="sign-up-with-google-wrapper">
+                  <b class="sign-up-with">Sign up with Google</b>
+                </div>
+              </button>
+            </div>
+            <div class="login-link">
+              <div class="already-have-an-container">
+                <span class="already-have-an">Already have an account? </span>
+				<a href="/login" class="log-in-button">
+					<span class="log-in">Log in</span>
+				</a>
+                <span class="span"> </span>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+	<script>
+    document.querySelector('.signup-form').addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const username = document.querySelector('.enter-your-name').value.trim();
+		const email = document.querySelector('.enter-your-email').value;
+        const password = document.querySelector('.create-a-password').value.trim();
+
+        if (!username || !password) {
+            alert('Please fill in all fields.');
+            return;
+        }
+
+        try {
+            const response = await fetch('/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, email, password }),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert(result.message); 
+                window.location.href = '/login'; 
+            } else {
+                alert(result.error); 
+            }
+        } catch (error) {
+            console.error('Error during signup:', error);
+            alert('An unexpected error occurred. Please try again later.');
+        }
+    });
+	</script>
+	<script src="./js/SignUp.js"></script>
+  </body>
+</html>

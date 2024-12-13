@@ -6,13 +6,17 @@ import ViteExpress from 'vite-express';
 import bcrypt from 'bcrypt';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import multer from 'multer';
+import fs from 'fs';
 
 const app = express();
 app.use(express.static('public'));
 app.use(express.json());
 
+// To resolve __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
 
 const sessDb = new Database("session.db");
 const SqliteStore = betterSqlite3Session(expressSession, sessDb);
@@ -31,9 +35,29 @@ app.use(expressSession({
     }
 }));
 
+// Set up multer storage configuration
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const uploadDir = path.join(__dirname, 'public', 'uploads');
+        // Ensure the uploads directory exists
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
+        }
+        cb(null, uploadDir);  // Specify the directory to store uploaded files
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname));  // Generate a unique filename
+    }
+});
+
+// Initialize multer with the storage configuration
+const upload = multer({ storage: storage });
+
+
 const PORT = 3000;
 const db = new Database("ChefSecretRecipe.db");
 
+// Middleware to check if user is logged in
 const isAuthenticated = (req, res, next) => {
     if (!req.session.username) {
         return res.status(401).json({ error: 'Not logged in!' });
@@ -41,6 +65,96 @@ const isAuthenticated = (req, res, next) => {
     next();
 };
 
+// Middleware to check if user is an admin
+const isAdmin = (req, res, next) => {
+    if (!req.session.isadmin) {
+        return res.status(403).json({ error: 'Access denied!' });
+    }
+    next();
+};
+app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
+app.use('/images', express.static(path.join(__dirname, 'public', 'images')));
+
+
+// Endpoint to fetch homepage
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'homepage.html'));
+});
+
+app.get('/signup', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'signup.html'));
+});
+
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'Login.html'));
+});
+
+// Serve the profile settings page
+app.get('/profile-settings', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'profile-settings.html'));
+});
+
+// API to check user status
+app.get('/api/user-status', (req, res) => {
+    if (req.session.username) {
+        const stmt = db.prepare(`
+            SELECT username, profile_picture
+            FROM ht_users
+            WHERE username = ?
+        `);
+        const user = stmt.get(req.session.username);
+
+        if (user) {
+            return res.json({ loggedIn: true, username: user.username, profilePicture: user.profile_picture });
+        }
+    }
+    res.json({ loggedIn: false });
+});
+
+// Endpoint to update user profile information
+app.post('/api/update-profile', isAuthenticated, async (req, res) => {
+    const { newUsername, newProfilePicture } = req.body;
+
+    if (!newUsername) {
+        return res.status(400).json({ error: 'Username is required.' });
+    }
+
+    try {
+        const stmt = db.prepare('UPDATE ht_users SET username = ?, profile_picture = ? WHERE username = ?');
+        const result = stmt.run(newUsername, newProfilePicture || null, req.session.username);
+
+        if (result.changes > 0) {
+            req.session.username = newUsername;  
+            res.json({ success: true, newUsername, newProfilePicture });
+        } else {
+            res.status(400).json({ error: 'Failed to update profile.' });
+        }
+    } catch (error) {
+        console.error('Error updating profile:', error.message);
+        res.status(500).json({ error: 'An error occurred while updating your profile.' });
+    }
+});
+
+// Endpoint for uploading profile picture
+app.post('/api/upload-profile-picture', isAuthenticated, upload.single('profilePicture'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded.' });
+    }
+
+    const filePath = `/uploads/${req.file.filename}`;
+
+    // Optionally: Update the user's profile picture in the database
+    const stmt = db.prepare('UPDATE ht_users SET profile_picture = ? WHERE username = ?');
+    const result = stmt.run(filePath, req.session.username);
+
+    if (result.changes > 0) {
+        res.json({ success: true, profilePicture: filePath });
+    } else {
+        res.status(400).json({ error: 'Failed to update profile picture.' });
+    }
+});
+
+// User login endpoint
 app.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -54,6 +168,7 @@ app.post('/login', async (req, res) => {
 
         if (user && await bcrypt.compare(password, user.password)) {
             req.session.username = user.username;
+			req.session.userId = user.id;
             res.json({ message: 'Login successful!', username: user.username });
         } else {
             res.status(401).json({ error: 'Invalid email or password!' });
@@ -63,11 +178,12 @@ app.post('/login', async (req, res) => {
     }
 });
 
+// User signup
 app.post('/signup', async (req, res) => {
     const { username, email, password } = req.body;
 
     if (!username || !email || !password) {
-        return res.status(400).json({ error: 'Username, Email, and Password are required.' });
+        return res.status(400).json({ error: 'Username, Email and Password are required.' });
     }
 
     if (password.length < 8) {
@@ -97,37 +213,142 @@ app.post('/signup', async (req, res) => {
     }
 });
 
-app.post('/update-profile', isAuthenticated, async (req, res) => {
+// Endpoint to fetch recipe categories
+app.get('/categories', (req, res) => {
     try {
-        const { username, darkMode, profilePic } = req.body;
-
-        if (!username) {
-            return res.status(400).json({ error: 'Username is required.' });
-        }
-
-        const newProfilePic = profilePic ? profilePic : null;
-
-        const updateStmt = db.prepare(`
-            UPDATE ht_users
-            SET username = ?, profile_picture = ?, dark_mode = ?
-            WHERE username = ?
-        `);
-
-        updateStmt.run(username, newProfilePic, darkMode, req.session.username);
-
-        res.json({ message: 'Profile updated successfully!' });
+        const stmt = db.prepare("SELECT * FROM categories");
+        const categories = stmt.all();
+        res.json(categories);
     } catch (error) {
-        console.error('Error updating profile:', error.message);
-        res.status(500).json({ error: 'An error occurred. Please try again.' });
+        console.error('Error fetching categories:', error.message);
+        res.status(500).json({ error: 'Failed to fetch categories' });
     }
 });
 
+// Endpoint to fetch recipes based on categories and ht_users
+app.get('/recipes', (req, res) => {
+    try {
+        const stmt = db.prepare(`
+            SELECT r.id, r.title, r.ingredients, r.instructions, c.name AS category, u.username AS author
+            FROM recipes r
+            JOIN categories c ON r.category_id = c.id
+            JOIN ht_users u ON r.user_id = u.id
+        `);
+        const recipes = stmt.all();
+        res.json(recipes);
+    } catch (error) {
+        console.error('Error fetching recipes:', error.message);
+        res.status(500).json({ error: 'Failed to fetch recipes' });
+    }
+});
+
+// add recipes - page 
+app.get('/recipe/add', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'addRecipe.html'));
+});
+// add recipes - api
+app.post('/recipe/add', isAuthenticated, upload.single('image'), (req, res) => {
+    const { title, description, ingredients, steps } = req.body;
+    const userId = req.session.userId;
+    const imagePath = req.file ? req.file.path : null;
+
+    if (!userId) {
+        return res.status(401).json({ error: 'User not logged in.' });
+    }
+
+    const query = `
+      INSERT INTO recipes (title, description, ingredients, instructions, category_id, user_id, imagePath)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    try {
+        const stmt = db.prepare(query);
+        stmt.run(title, description, ingredients, instructions, categoryId, userId, image_url);
+        res.redirect('/');
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error saving recipe' });
+    }
+});
+
+// view all recipes created by user - page 
+app.get('/recipe/view', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'viewRecipe.html'));
+});
+// view all recipes created by user - api 
+app.get('/api/recipe/view', isAuthenticated, (req, res) => {
+    const userId = req.session.userId;
+
+    if (!userId) {
+        return res.status(401).json({ error: 'User not logged in.' });
+    }
+
+    try {
+        const stmt = db.prepare("SELECT * FROM recipes WHERE user_id = ?");
+        const recipes = stmt.all(userId);
+        res.json(recipes);
+    } catch (error) {
+        console.error('Error fetching user recipes:', error.message);
+        res.status(500).json({ error: 'Failed to fetch user recipes.' });
+    }
+});
+
+
+// getting data of trending recipe
+app.get('/recipes/:title', (req, res) => {
+  const title = req.params.title;
+
+  try {
+    const stmt = db.prepare("SELECT * FROM recipes WHERE title = ?");
+    const recipe = stmt.get(title);  
+
+    if (!recipe) {
+      return res.status(404).send('Recipe not found');
+    }
+	
+    res.json(recipe); 
+    
+  } catch (error) {
+    console.error('Error fetching recipe:', error.message);
+    res.status(500).send('Server error');
+  }
+});
+
+
+
+// Add the search endpoint with detailed error logging
+app.get('/search', (req, res) => {
+    try {
+        const query = req.query.q;
+        if (!query) {
+            console.warn('Search query parameter is missing');
+            return res.status(400).json({ error: 'Query parameter is missing' });
+        }
+        const stmt = db.prepare(`
+            SELECT recipes.*, categories.name AS category_name
+            FROM recipes
+            JOIN categories ON recipes.category_id = categories.id
+            WHERE recipes.title LIKE ? OR categories.name LIKE ?
+        `);
+        const recipes = stmt.all(`%${query}%`, `%${query}%`);
+        console.log('Search results:', recipes);  
+        res.json(recipes);
+    } catch (error) {
+        console.error('Error executing search:', error); 
+        res.status(500).json({ error: 'Failed to execute search' });
+    }
+});
+
+
+
+// Logout endpoint
 app.post('/logout', (req, res) => {
     req.session.username = null;
     req.session.isadmin = null; 
     res.json({ success: 1 });
 });
 
+// Start the server
 ViteExpress.listen(app, PORT, () => {
     console.log(`Server listening on port ${PORT}.`);
 });
