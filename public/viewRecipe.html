@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+
+    <link rel="stylesheet" href="/LoggedRecipeglobal.css" />
+    <link rel="stylesheet" href="/LoggedRecipe.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700&display=swap"
+    />
+  </head>
+  <body>
+    <div class="logged-in-recipe">
+      <main class="depth-0-frame-0">
+        <header class="depth-2-frame-0">
+          <img
+            class="depth-2-frame-0-child"
+            loading="lazy"
+            alt=""
+            src="/images/rectangle-1@2x.png"
+          />
+          <div class="depth-3-frame-1">
+            <img
+              class="depth-4-frame-2"
+              loading="lazy"
+              alt=""
+              src="/images/depth-4-frame-2@2x.png"
+            />
+
+            <div class="depth-3-frame-0">
+              <div class="depth-4-frame-1">
+                <div class="depth-5-frame-0">
+                  <div class="depth-6-frame-0">
+                    <div class="depth-7-frame-0">
+                      <img class="vector-0" alt="" src="/images/vector--0.svg" />
+                    </div>
+                  </div>
+                  <div class="depth-6-frame-1">
+                    <a class="search">Search</a>
+                  </div>
+                </div>
+              </div>
+              <div class="depth-4-frame-0">
+                <div class="depth-5-frame-1">
+                  <a class="chefs-secret">
+                    <p class="chefs">Chef’s</p>
+                    <p class="secret">Secret</p>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div id="recipes-container" style="margin: auto"></div>
+      </main>
+    </div>
+
+    <script>
+      async function fetchRecipes() {
+        try {
+          const response = await fetch('api/recipe/view');
+          const recipes = await response.json();
+
+          const recipesContainer = document.getElementById('recipes-container');
+          if (recipes.length > 0) {
+            recipes.forEach((recipe, index) => {
+              const recipeHtml = `
+                <h1 style="text-align:center;">Recipe ${index + 1}</h1>
+                <section class="content">
+                  <br />
+                  <div class="depth-3-frame-0-parent">
+                    <div class="depth-3-frame-01">
+                      <div class="recipe-header">
+                        <div
+            class="depth-6-frame-01"
+            style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('${recipe.image.replace(/\\/g, '/')}')"
+
+          >
+                          <div class="homemade-chicken-noodle-soup-parent">
+                            <h1 class="homemade-chicken-noodle">${recipe.title}</h1>
+                            <div class="this-classic-homemade">
+                              ${recipe.description}
+                            </div>
+                          </div>
+                          <div class="actions">
+                            <div class="depth-7-frame-1">
+                              <button class="depth-8-frame-0">
+                                <div class="depth-9-frame-0">
+                                  <b class="save">Save</b>
+                                </div>
+                              </button>
+                              <button class="depth-8-frame-1">
+                                <div class="depth-9-frame-01">
+                                  <b class="print">Print</b>
+                                </div>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="author">
+                        <div class="depth-4-frame-21">
+                          <div class="depth-5-frame-01">
+                            <div class="depth-6-frame-02">
+                              <div class="depth-7-frame-01">
+                                <img
+                                  class="timestamp-elements-icon"
+                                  loading="lazy"
+                                  alt=""
+                                  src="/images/vector--0-1.svg"
+                                />
+                              </div>
+                            </div>
+                            <div class="depth-6-frame-11">
+                              <b class="m">1.2M</b>
+                            </div>
+                          </div>
+                          <div class="depth-5-frame-11">
+                            <div class="depth-6-frame-03">
+                              <div class="depth-7-frame-02">
+                                <img
+                                  class="vector-01"
+                                  loading="lazy"
+                                  alt=""
+                                  src="/images/vector--0-2.svg"
+                                />
+                              </div>
+                            </div>
+                            <div class="depth-6-frame-12">
+                              <b class="b">35</b>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="depth-4-frame-3">
+                          <img
+                            class="depth-5-frame-02"
+                            loading="lazy"
+                            alt=""
+                            src="/images/depth-5-frame-0@2x.png"
+                          />
+
+                          <div class="depth-5-frame-12">
+                            <div class="depth-6-frame-04">
+                              <div class="depth-7-frame-03">
+                                <div class="depth-8-frame-01">
+                                  <b class="sarah">Sarah</b>
+                                </div>
+                                <div class="depth-8-frame-11">
+                                  <div class="days-ago">3 days ago</div>
+                                </div>
+                              </div>
+                              <div class="depth-7-frame-11">
+                                <div class="i-love-this">
+                                  I love this recipe! So warm and comforting.
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="depth-4-frame-4">
+                          <div class="depth-5-frame-03">
+                            <div class="depth-6-frame-05">
+                              <div class="depth-7-frame-04">
+                                <img
+                                  class="depth-8-frame-02"
+                                  loading="lazy"
+                                  alt=""
+                                  src="/images/depth-8-frame-0@2x.png"
+                                />
+                              </div>
+                              <div class="depth-7-frame-12">
+                                <div class="depth-8-frame-03"></div>
+                                <div class="depth-8-frame-12"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="frame-parent">
+                        <div class="ingredients-wrapper">
+                          <h3 class="ingredients">Ingredients</h3>
+                        </div>
+                        <div class="ingredients-list">
+                          <div class="ingredients-container">
+                            ${recipe.ingredients
+                              .split('\r\n')
+                              .map(
+                                (ingredient) => `
+                              <div class="depth-4-frame-6">
+                                <div class="depth-5-frame-04">
+                                  <div class="depth-6-frame-06">
+                                    <div class="depth-7-frame-05">
+                                      <img
+                                        class="measurement-units-icon"
+                                        loading="lazy"
+                                        alt=""
+                                        src="/images/vector--0-3.svg"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div class="depth-6-frame-13">
+                                    <div class="depth-7-frame-06">
+                                      <div class="pound-boneless-skinless">
+                                        ${ingredient}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            `)
+                              .join('')}
+                          </div>
+
+                          <div class="instructions-wrapper">
+                            <h3 class="instructions">Instructions</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="steps">
+                        ${recipe.instructions
+                          .split('\r\n')
+                          .map(
+                            (instruction, idx) => `
+                          <div class="depth-4-frame-12">
+                            <div class="depth-5-frame-09">
+                              <div class="depth-6-frame-011">
+                                <div class="step-1">Step ${idx + 1}</div>
+                              </div>
+                              <div class="depth-6-frame-18">
+                                <div class="heat-the-olive">${instruction}</div>
+                              </div>
+                            </div>
+                          </div>
+                        `)
+                          .join('')}
+                      </div>
+                    </div>
+                  </div>
+                </section>`;
+
+              recipesContainer.innerHTML += recipeHtml;
+            });
+          } else {
+            recipesContainer.innerHTML = `
+              <div class="no-recipes" style="margin: auto; font-style: italic">
+                <h2 style="margin: auto">No recipes available</h2>
+              </div>`;
+          }
+        } catch (error) {
+          console.error('Error fetching recipes:', error);
+        }
+      }
+
+      fetchRecipes();
+    </script>
+  </body>
+</html>

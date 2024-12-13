@@ -17,6 +17,7 @@ app.use(express.json());
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+
 const sessDb = new Database("session.db");
 const SqliteStore = betterSqlite3Session(expressSession, sessDb);
 
@@ -72,6 +73,7 @@ const isAdmin = (req, res, next) => {
     next();
 };
 app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
+app.use('/images', express.static(path.join(__dirname, 'public', 'images')));
 
 
 // Endpoint to fetch homepage
@@ -166,6 +168,7 @@ app.post('/login', async (req, res) => {
 
         if (user && await bcrypt.compare(password, user.password)) {
             req.session.username = user.username;
+			req.session.userId = user.id;
             res.json({ message: 'Login successful!', username: user.username });
         } else {
             res.status(401).json({ error: 'Invalid email or password!' });
@@ -239,25 +242,79 @@ app.get('/recipes', (req, res) => {
     }
 });
 
-app.get('/recipes/:id', (req, res) => { 
-    res.sendFile(path.join(__dirname, 'public', 'recipe.html'));
+// add recipes - page 
+app.get('/recipe/add', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'addRecipe.html'));
 });
+// add recipes - api
+app.post('/recipe/add', isAuthenticated, upload.single('image'), (req, res) => {
+    const { title, description, ingredients, steps } = req.body;
+    const userId = req.session.userId;
+    const imagePath = req.file ? req.file.path : null;
 
-app.get('/api/recipes/:id', (req, res) => {
-    const { id } = req.params;
+    if (!userId) {
+        return res.status(401).json({ error: 'User not logged in.' });
+    }
+
+    const query = `
+      INSERT INTO recipes (title, description, ingredients, instructions, category_id, user_id, imagePath)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `;
+
     try {
-        const stmt = db.prepare("SELECT * FROM recipes WHERE id = ?");
-        const recipe = stmt.get(id);
-        if (recipe) {
-            res.json(recipe);
-        } else {
-            res.status(404).json({ error: 'Recipe not found' });
-        }
-    } catch (error) {
-        console.error('Error fetching recipe:', error.message);
-        res.status(500).json({ error: 'Internal server error' });
+        const stmt = db.prepare(query);
+        stmt.run(title, description, ingredients, instructions, categoryId, userId, image_url);
+        res.redirect('/');
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error saving recipe' });
     }
 });
+
+// view all recipes created by user - page 
+app.get('/recipe/view', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'viewRecipe.html'));
+});
+// view all recipes created by user - api 
+app.get('/api/recipe/view', isAuthenticated, (req, res) => {
+    const userId = req.session.userId;
+
+    if (!userId) {
+        return res.status(401).json({ error: 'User not logged in.' });
+    }
+
+    try {
+        const stmt = db.prepare("SELECT * FROM recipes WHERE user_id = ?");
+        const recipes = stmt.all(userId);
+        res.json(recipes);
+    } catch (error) {
+        console.error('Error fetching user recipes:', error.message);
+        res.status(500).json({ error: 'Failed to fetch user recipes.' });
+    }
+});
+
+
+// getting data of trending recipe
+app.get('/recipes/:title', (req, res) => {
+  const title = req.params.title;
+
+  try {
+    const stmt = db.prepare("SELECT * FROM recipes WHERE title = ?");
+    const recipe = stmt.get(title);  
+
+    if (!recipe) {
+      return res.status(404).send('Recipe not found');
+    }
+	
+    res.json(recipe); 
+    
+  } catch (error) {
+    console.error('Error fetching recipe:', error.message);
+    res.status(500).send('Server error');
+  }
+});
+
+
 
 // Add the search endpoint with detailed error logging
 app.get('/search', (req, res) => {
@@ -274,10 +331,10 @@ app.get('/search', (req, res) => {
             WHERE recipes.title LIKE ? OR categories.name LIKE ?
         `);
         const recipes = stmt.all(`%${query}%`, `%${query}%`);
-        console.log('Search results:', recipes);  // Log the search results
+        console.log('Search results:', recipes);  
         res.json(recipes);
     } catch (error) {
-        console.error('Error executing search:', error); // Log the complete error object
+        console.error('Error executing search:', error); 
         res.status(500).json({ error: 'Failed to execute search' });
     }
 });
